@@ -99,7 +99,7 @@ https://github.com/jordavw/image-toolkit-pro-support
 
 Si tienes dudas o quieres reportar un error:
 
-📧 [soporte@tu-dominio.com](mailto:jordavw22@gmail.com)
+📧 mailto:jordavw22@gmail.com
 
 ---
 
