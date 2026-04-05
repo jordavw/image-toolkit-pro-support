@@ -3,106 +3,487 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Image Toolkit Pro - Soporte</title>
+  <title>Image Save Toolkit | Soporte</title>
   <style>
+    :root {
+      --bg: #f7f8fc;
+      --bg-soft: #ffffff;
+      --card: #ffffff;
+      --border: #e7eaf3;
+      --text: #1d2433;
+      --muted: #5e6a84;
+      --accent: #4f7cff;
+      --accent-2: #7a5cff;
+      --shadow: 0 14px 34px rgba(21, 28, 45, 0.08);
+    }
+
+    body.dark {
+      --bg: #0b1020;
+      --bg-soft: #111831;
+      --card: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.1);
+      --text: #eef2ff;
+      --muted: #b8c0e0;
+      --accent: #7c9cff;
+      --accent-2: #9b7cff;
+      --shadow: 0 18px 40px rgba(0,0,0,0.28);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
-      color: #222;
+      transition: background 0.25s ease, color 0.25s ease;
     }
-    h1, h2 {
-      color: #111;
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
     }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: color-mix(in srgb, var(--bg-soft) 88%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+    }
+
+    .brand-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: var(--shadow);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .toggle-btn,
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      border-color: transparent;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 72px 0 40px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: color-mix(in srgb, var(--accent) 12%, var(--bg-soft));
+      color: var(--accent);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(2.3rem, 4.8vw, 4rem);
+      line-height: 1.05;
+      margin: 0 0 14px;
+      letter-spacing: -0.03em;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .preview,
     .card {
-      background: #f7f7f7;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .preview {
       padding: 18px;
-      border-radius: 10px;
-      margin-bottom: 20px;
     }
-    a {
-      color: #0a58ca;
-      text-decoration: none;
+
+    .window {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
     }
-    a:hover {
-      text-decoration: underline;
+
+    .window-top {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
     }
-    code {
-      background: #eee;
-      padding: 2px 6px;
-      border-radius: 4px;
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .window-body {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .ph-line,
+    .ph-box {
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--border) 70%, var(--bg-soft));
+    }
+
+    .ph-line { height: 14px; }
+    .ph-box { height: 160px; }
+
+    section {
+      padding: 18px 0 24px;
+    }
+
+    .section-head {
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 22px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+
+    .card ul,
+    .card ol {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .placeholder-preview {
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border-radius: 16px;
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      background: color-mix(in srgb, var(--bg-soft) 85%, transparent);
+      padding: 18px;
+    }
+
+    .footer {
+      padding: 34px 0 42px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Image Toolkit Pro</h1>
-  <p><strong>Página oficial de soporte de la extensión.</strong></p>
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="brand-badge">IS</div>
+        <span>Image Save Toolkit</span>
+      </div>
 
-  <div class="card">
-    <h2>Descripción</h2>
-    <p>
-      Image Toolkit Pro permite guardar imágenes desde páginas web en formato
-      PNG, JPG o JPEG directamente desde el menú contextual del navegador.
-    </p>
-  </div>
+      <nav class="nav-links">
+        <a href="#funciones">Funciones</a>
+        <a href="#como-usar">Cómo usar</a>
+        <a href="#about">About</a>
+        <a href="#privacidad">Privacidad</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
 
-  <div class="card">
-    <h2>Cómo usar</h2>
-    <ol>
-      <li>Haz clic derecho sobre una imagen en una página web.</li>
-      <li>Selecciona <strong>Guardar imagen como</strong>.</li>
-      <li>Elige el formato: PNG, JPG o JPEG.</li>
-      <li>Selecciona la ubicación de guardado.</li>
-    </ol>
-  </div>
+      <button class="toggle-btn" id="themeToggle" type="button">🌙 Modo oscuro</button>
+    </div>
+  </header>
 
-  <div class="card">
-    <h2>Funciones principales</h2>
-    <ul>
-      <li>Guardar imágenes como PNG</li>
-      <li>Guardar imágenes como JPG</li>
-      <li>Guardar imágenes como JPEG</li>
-      <li>Conservar nombre original cuando sea posible</li>
-      <li>Configurar calidad JPG/JPEG</li>
-      <li>Redimensionar imágenes antes de guardar</li>
-    </ul>
-  </div>
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Página oficial de soporte</span>
+          <h1>Guarda imágenes como PNG, JPG o JPEG de forma simple.</h1>
+          <p>
+            Una landing page sencilla, limpia y adaptable para presentar tu extensión,
+            con secciones básicas, placeholders, botón de contacto y soporte para modo claro y oscuro.
+          </p>
 
-  <div class="card">
-    <h2>Privacidad</h2>
-    <p>
-      Image Toolkit Pro procesa las imágenes localmente en el navegador.
-      No recopila información personal ni envía imágenes a servidores externos.
-    </p>
-  </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="mailto:soporte@tu-dominio.com?subject=Soporte%20Image%20Save%20Toolkit">Contactar por correo</a>
+            <a class="btn" href="#funciones">Ver secciones</a>
+          </div>
+        </div>
 
-  <div class="card">
-    <h2>Permisos utilizados</h2>
-    <ul>
-      <li><code>contextMenus</code>: para agregar opciones al clic derecho</li>
-      <li><code>downloads</code>: para guardar archivos</li>
-      <li><code>storage</code>: para guardar preferencias del usuario</li>
-      <li><code>offscreen</code>: para procesar imágenes en segundo plano</li>
-    </ul>
-  </div>
+        <div class="preview">
+          <div class="window">
+            <div class="window-top">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+            <div class="window-body">
+              <div class="ph-line" style="width: 70%;"></div>
+              <div class="ph-line" style="width: 88%;"></div>
+              <div class="ph-box"></div>
+              <div class="ph-line" style="width: 50%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <div class="card">
-    <h2>Soporte / Contacto</h2>
-    <p>
-      Si encuentras un problema o deseas reportar un error, contáctame en:
-    </p>
-    <p>
-      <a href="mailto:jordavw22@gmail.com">jordavw22@gmail.com.com</a>
-    </p>
-  </div>
+    <section id="funciones">
+      <div class="container">
+        <div class="section-head">
+          <h2>Funciones principales</h2>
+          <p>Sección base para mostrar lo que hace tu extensión de forma clara.</p>
+        </div>
 
-  <div class="card">
-    <h2>Historial de versiones</h2>
-    <p><strong>v1.0.0</strong> – Primera versión pública.</p>
-    <p><strong>v1.1.0</strong> – Mejoras en calidad JPG/JPEG.</p>
-    <p><strong>v1.2.0</strong> – Añadido redimensionado y mejora de nombres de archivo.</p>
-  </div>
+        <div class="grid-3">
+          <article class="card">
+            <h3>Guardar como PNG</h3>
+            <p>Guarda imágenes directamente en formato PNG desde el menú contextual.</p>
+          </article>
+          <article class="card">
+            <h3>Guardar como JPG/JPEG</h3>
+            <p>Convierte imágenes a JPG o JPEG con una experiencia simple para el usuario.</p>
+          </article>
+          <article class="card">
+            <h3>Opciones y soporte</h3>
+            <p>Base ideal para documentar funciones, ajustes y futuras mejoras.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="como-usar">
+      <div class="container">
+        <div class="section-head">
+          <h2>Cómo usar</h2>
+          <p>Una guía rápida para usuarios y revisores.</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Pasos básicos</h3>
+            <ol>
+              <li>Haz clic derecho sobre una imagen.</li>
+              <li>Selecciona el formato que deseas guardar.</li>
+              <li>Elige la ubicación y confirma la descarga.</li>
+            </ol>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head">
+          <h2>Sobre la extensión</h2>
+          <p>Image Toolkit Pro permite guardar imágenes desde cualquier página web en formato PNG, JPG o JPEG. Incluye opciones para definir calidad JPG/JPEG, conservar nombres de archivo y redimensionar imágenes antes de descargarlas. La conversión se realiza localmente en el navegador..</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Sobre la extensión</h3>
+            <p>
+              Image Save Toolkit está pensada para ofrecer una forma directa y cómoda de guardar imágenes
+              en formatos comunes, con una presentación simple y profesional.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Próximamente</h3>
+            <ul>
+              <li>Placeholder para futuras funciones</li>
+              <li>Placeholder para historial de versiones</li>
+              <li>Placeholder para preguntas frecuentes</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacidad">
+      <div class="container">
+        <div class="section-head">
+          <h2>Privacidad y permisos</h2>
+          <p>Texto simple para explicar qué hace la extensión y qué no hace.</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Privacidad</h3>
+            <p>
+              Image Save Toolkit procesa las imágenes localmente en el navegador.
+              No recopila información personal ni envía imágenes a servidores externos para la conversión básica.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Permisos</h3>
+            <ul>
+              <li><strong>contextMenus</strong> para las opciones del clic derecho</li>
+              <li><strong>downloads</strong> para guardar archivos</li>
+              <li><strong>storage</strong> para guardar preferencias</li>
+              <li><strong>offscreen</strong> para el procesamiento interno</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto">
+      <div class="container">
+        <div class="section-head">
+          <h2>Contacto</h2>
+          <p>Canal de soporte directo para usuarios o revisores.</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Soporte por correo</h3>
+            <p>Actualiza este correo con tu dirección real de soporte.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="mailto:jordavw22@gmail.com">Escribirme por correo</a>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Información adicional</h3>
+            <ul>
+              <li>Correo: jordavw22@gmail.com</li>
+              <li>Enlace del proyecto:https://github.com/jordavw/image-toolkit-pro-support</li>
+              <li>Versión actual: v1.0.0</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2026 Image Save Toolkit</div>
+      <div>Landing page simple con modo claro y oscuro.</div>
+    </div>
+  </footer>
+
+  <script>
+    const body = document.body;
+    const toggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme === 'dark') {
+      body.classList.add('dark');
+      toggle.textContent = '☀️ Modo claro';
+    }
+
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      const isDark = body.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      toggle.textContent = isDark ? '☀️ Modo claro' : '🌙 Modo oscuro';
+    });
+  </script>
 </body>
 </html>
